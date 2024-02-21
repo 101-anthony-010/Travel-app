@@ -30,7 +30,12 @@ export default function RegisterPage({ navigation }) {
 	const [fullnameFocused, setFullnameFocused] = useState(false);
 	const [lastnameFocused, setLastnameFocused] = useState(false);
 	const [lastnameError, setLastnameError] = useState("");
-	// >>>>>>>>>>>>>>>>>>>>>>>> FUNCIONES >>>>>>>>>>>>>>>>>>>>>>>>
+	const [phonenumberFocused, setPhonenumberFocused] = useState(false);
+	const [documentFocused, setDocumentFocused] = useState(false);
+
+	const [phonenumberError, setPhonenumberError] = useState("");
+	const [documentError, setDocumentError] = useState("");
+	// >>>>>>>>>>>>>>>>>>>>>>>> FUNCIONES DE VALIDACIONES >>>>>>>>>>>>>>>>>>>>>>>>
 	const handleEmailChange = (text) => {
 		// manejo de errores con validación del email
 		setEmail(text);
@@ -46,20 +51,54 @@ export default function RegisterPage({ navigation }) {
 		}
 	};
 
-	const isValidInput = (text) => {
+	const isValidNumberInput = (text) => {
 		// verifica si el texto contiene caracteres numéricos
 		return !/\d/.test(text);
 	};
 
+	const isValidNumberInputWithLenght = (text, expectedLength) => {
+		// Verifica si el texto contiene solo dígitos y tiene la longitud esperada
+		return /^\d+$/.test(text) && text.length === expectedLength;
+	};
+	/*
 	const handleInputChange = (text, setFocused, setError) => {
 		setFocused(true);
 		if (isValidInput(text) && text.length <= 50) {
 			setError("");
 		} else {
-			setError("El nombre no debe contener caracteres numéricos");
+			setError("No debe contener caracteres numéricos");
+		}
+	};
+  */
+	const handleInputChange = (
+		text,
+		setFocused,
+		setError,
+		maxLength,
+		errorMessage
+	) => {
+		setFocused(true);
+		if (isValidNumberInput(text) && text.length <= maxLength) {
+			setError("");
+		} else {
+			setError(errorMessage);
 		}
 	};
 
+	const handleNumberInputChange = (
+		text,
+		setFocused,
+		setError,
+		expectedLength,
+		errorMessage
+	) => {
+		setFocused(true);
+		if (isValidNumberInputWithLenght(text, expectedLength)) {
+			setError("");
+		} else {
+			setError(errorMessage);
+		}
+	};
 	// >>>>>>>>>>>>>>>>>>>>>>>> DISEÑO VIEW >>>>>>>>>>>>>>>>>>>>>>>>
 	return (
 		<View style={styles.AllContainer}>
@@ -67,7 +106,7 @@ export default function RegisterPage({ navigation }) {
 				<Text style={styles.Heading1}>Regístrate</Text>
 			</View>
 			<View style={styles.FormContainer}>
-				<TextInput //Nombre completo
+				<TextInput //nombre completo
 					style={styles.TextInput}
 					placeholder="Nombre completo"
 					underlineColorAndroid={
@@ -84,7 +123,9 @@ export default function RegisterPage({ navigation }) {
 						handleInputChange(
 							text,
 							setFullnameFocused,
-							setFullnameError
+							setFullnameError,
+							50,
+							"El nombre no debe contener caracteres numéricos"
 						)
 					}
 					maxLength={50} // cantidad de caracteres
@@ -94,7 +135,7 @@ export default function RegisterPage({ navigation }) {
 					<Text style={styles.ErrorText}>{fullnameError}</Text>
 				) : null}
 
-				<TextInput //Nombre completo
+				<TextInput //apellido completo
 					style={styles.TextInput}
 					placeholder="Apellidos completo"
 					underlineColorAndroid={
@@ -102,7 +143,7 @@ export default function RegisterPage({ navigation }) {
 							? colors.primaryColor
 							: colors.inputColor
 					}
-					value={fullnameFocused}
+					value={lastnameFocused}
 					onFocus={() => setLastnameFocused(true)}
 					onBlur={() => {
 						setLastnameFocused(false);
@@ -111,16 +152,76 @@ export default function RegisterPage({ navigation }) {
 						handleInputChange(
 							text,
 							setLastnameFocused,
-							setLastnameError
+							setLastnameError,
+							50,
+							"El apellido no debe contener caracteres numéricos"
 						)
 					}
 					maxLength={50} // cantidad de caracteres
 				/>
 
 				{lastnameError ? (
-					<Text style={styles.ErrorText}>
-						{paternalLastnameError}
-					</Text>
+					<Text style={styles.ErrorText}>{lastnameError}</Text>
+				) : null}
+
+				<TextInput //nro documento
+					style={styles.TextInput}
+					placeholder="Nro. Documento"
+					underlineColorAndroid={
+						documentFocused
+							? colors.primaryColor
+							: colors.inputColor
+					}
+					value={documentFocused}
+					onFocus={() => setDocumentFocused(true)}
+					onBlur={() => {
+						setDocumentFocused(false);
+					}}
+					onChangeText={(text) =>
+						handleNumberInputChange(
+							text,
+							setDocumentFocused,
+							setDocumentError,
+							8,
+							"Ingresa un número de documento válido"
+						)
+					}
+					keyboardType="numeric"
+					maxLength={8} // cantidad de caracteres
+				/>
+
+				{documentError ? (
+					<Text style={styles.ErrorText}>{documentError}</Text>
+				) : null}
+
+				<TextInput //nro celular
+					style={styles.TextInput}
+					placeholder="Nro. Celular"
+					underlineColorAndroid={
+						phonenumberFocused
+							? colors.primaryColor
+							: colors.inputColor
+					}
+					value={phonenumberFocused}
+					onFocus={() => setPhonenumberFocused(true)}
+					onBlur={() => {
+						setPhonenumberFocused(false);
+					}}
+					onChangeText={(text) =>
+						handleNumberInputChange(
+							text,
+							setPhonenumberFocused,
+							setPhonenumberError,
+							9,
+							"Ingresa un número de celular válido"
+						)
+					}
+					keyboardType="numeric"
+					maxLength={9} // cantidad de caracteres
+				/>
+
+				{phonenumberError ? (
+					<Text style={styles.ErrorText}>{phonenumberError}</Text>
 				) : null}
 
 				<TextInput
@@ -165,7 +266,7 @@ export default function RegisterPage({ navigation }) {
 						onPress={handleLogin}
 						style={styles.Button}
 					>
-						<Text style={styles.ButtonText}>Iniciar Sesión</Text>
+						<Text style={styles.ButtonText}>Registrase</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
