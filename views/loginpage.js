@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
 	View,
 	StyleSheet,
@@ -12,11 +13,33 @@ import {
 
 const colors = {
 	primaryColor: "#35A401",
+	errorColor: "#A62424",
+	inputColor: "#D4D4D4",
 };
 
 export default function LoginPage({ navigation }) {
 	const handleHome = () => {
 		navigation.navigate("Home");
+	};
+
+	const [email, setEmail] = useState("");
+	const [emailError, setEmailError] = useState("");
+	const [password, setPassword] = useState("");
+	const [emailFocused, setEmailFocused] = useState(false);
+	const [passwordFocused, setPasswordFocused] = useState(false);
+
+	const handleEmailChange = (text) => {
+		setEmail(text);
+		setEmailError("");
+	};
+
+	const validateEmail = () => {
+		// Expresión regular para validar el formato del correo electrónico
+		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+		if (!emailRegex.test(email)) {
+			setEmailError("Ingresa un correo electrónico válido");
+		}
 	};
 
 	return (
@@ -28,20 +51,50 @@ export default function LoginPage({ navigation }) {
 				<TextInput
 					style={styles.TextInput}
 					placeholder="Correo electrónico"
-					underlineColorAndroid={colors.primaryColor}
+					underlineColorAndroid={
+						emailFocused ? colors.primaryColor : colors.inputColor
+					}
+					onChangeText={handleEmailChange}
+					value={email}
+					onFocus={() => setEmailFocused(true)}
+					onBlur={() => {
+						setEmailFocused(false);
+						validateEmail();
+					}}
+					//onBlur={validateEmail}
 				/>
+
+				{emailError ? (
+					<Text style={styles.ErrorText}>{emailError}</Text>
+				) : null}
 
 				<TextInput
 					style={styles.TextInput}
 					placeholder="Contraseña"
-					//onChangeText={(nuevoNombre) => setNombre(nuevoNombre)}*/
-					//value={nombre}
-					underlineColorAndroid={colors.primaryColor}
+					underlineColorAndroid={
+						passwordFocused
+							? colors.primaryColor
+							: colors.inputColor
+					}
+					secureTextEntry={true} // Oculta los caracteres de la contraseña
+					//onChangeText={(text) => setPassword(text)}
+					value={password}
+					onFocus={() => setPasswordFocused(true)}
+					onBlur={() => setPasswordFocused(false)}
+					onChangeText={(text) => {
+						setPassword(text);
+						setPasswordFocused(text.length > 0);
+					}}
 				/>
 
-				<TouchableOpacity onPress={handleHome} style={styles.Button}>
-					<Text style={styles.ButtonText}>Iniciar Sesión</Text>
-				</TouchableOpacity>
+				<View style={styles.ContainerButton}>
+					<TouchableOpacity
+						onPress={handleHome}
+						style={styles.Button}
+					>
+						<Text style={styles.ButtonText}>Iniciar Sesión</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		</View>
 	);
@@ -51,7 +104,7 @@ export default function LoginPage({ navigation }) {
 const styles = StyleSheet.create({
 	Heading1: {
 		color: "black",
-		fontSize: 30,
+		fontSize: 28,
 		fontWeight: "bold",
 		textAlign: "left",
 	},
@@ -94,6 +147,21 @@ const styles = StyleSheet.create({
 	},
 
 	FormContainer: {
+		alignItems: "left",
+	},
+
+	ErrorText: {
+		color: colors.errorColor,
+		textAlign: "left",
+		marginLeft: 8,
+		marginTop: -15,
+		fontSize: 12,
+	},
+
+	ContainerButton: {
+		marginTop: 20,
+		flex: 1,
+		justifyContent: "center",
 		alignItems: "center",
 	},
 });
