@@ -65,7 +65,8 @@ export default function LoginPage({ navigation }) {
       const responseData = await response.json();
       if (response.ok) {
         console.log("Inicio de sesión exitoso", responseData);
-        navigation.navigate("Login");
+        navigation.navigate("Home");
+        alert("Logueo Exitoso");
       } else {
         console.error("Error al iniciar sesión:", responseData);
       }

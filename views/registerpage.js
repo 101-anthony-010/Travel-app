@@ -134,6 +134,7 @@ export default function RegisterPage({ navigation }) {
       if (response.ok) {
         console.log("Usuario registrado exitosamente", responseData);
         navigation.navigate("Login");
+        alert("Registro Exitoso");
       } else {
         console.log(`Error al registrar usuario: ${responseData}`);
       }
