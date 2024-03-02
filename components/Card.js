@@ -4,7 +4,7 @@ import { View, Image, Text, StyleSheet } from "react-native";
 const Card = ({ imageSource, destination }) => {
 	return (
 		<View style={styles.cardContainer}>
-			<Image source={{ uri: imageSource }} style={styles.cardImage} />
+			<Image source={{ imageSource }} style={styles.cardImage} />
 			<View style={styles.labelContainer}>
 				<Text style={styles.labelText}>{destination}</Text>
 			</View>
@@ -14,9 +14,8 @@ const Card = ({ imageSource, destination }) => {
 
 const styles = StyleSheet.create({
 	cardContainer: {
-		overflow: "repeat",
-		marginBottom: 16,
 		margin: 10,
+		//overflow: "repeat",
 	},
 	cardImage: {
 		width: 150,
