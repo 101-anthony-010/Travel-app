@@ -1,14 +1,24 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Card = ({ imageSource, destination }) => {
+	const navigation = useNavigation();
+
+	const handleCardPress = () => {
+		// Navegar a la página
+		navigation.navigate("Destination");
+	};
+
 	return (
-		<View style={styles.cardContainer}>
-			<Image source={{ imageSource }} style={styles.cardImage} />
-			<View style={styles.labelContainer}>
-				<Text style={styles.labelText}>{destination}</Text>
+		<TouchableOpacity onPress={handleCardPress}>
+			<View style={styles.cardContainer}>
+				<Image source={imageSource} style={styles.cardImage} />
+				<View style={styles.labelContainer}>
+					<Text style={styles.labelText}>{destination}</Text>
+				</View>
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 };
 
@@ -21,7 +31,7 @@ const styles = StyleSheet.create({
 		width: 150,
 		height: 150,
 		borderRadius: 8,
-		backgroundColor: "yellow",
+		//backgroundColor: "yellow",
 		resizeMode: "repeat",
 		justifyContent: "center",
 	},

@@ -5,6 +5,7 @@ import { BackgroundHome } from "../images/paracas.png";
 import SearchBar from "../components/SearchBar";
 import Icon from "react-native-vector-icons/Ionicons";
 import Card from "../components/Card";
+import { useNavigation } from "@react-navigation/native";
 
 const colors = {
 	bgMain: "#F5F6F7",
@@ -66,6 +67,11 @@ export default function HomePage() {
 			</View>
 			<View style={styles.ContainerBottomBar}>
 				<BottomNavigationBar style={styles.BottomBar} />
+			</View>
+			<View style={styles.ContainerHeaderSection}>
+				<View style={styles.BoxGreenHeader}>
+					<Text style={styles.HeaderSection}>Recomendados</Text>
+				</View>
 			</View>
 			<View
 				style={styles.ContainerCards} // SECCION GALERÍA DE LUGARES DE DESTINO
@@ -157,6 +163,21 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "indigo",
+		//backgroundColor: "indigo",
+	},
+
+	BoxGreenHeader: {
+		width: 220,
+		backgroundColor: colors.primaryColor,
+		padding: 15,
+		marginVertical: 20,
+		borderTopRightRadius: 30,
+		borderBottomRightRadius: 30,
+	},
+	HeaderSection: {
+		color: "white",
+		fontSize: 18,
+		fontWeight: "600",
+		paddingHorizontal: 30,
 	},
 });
