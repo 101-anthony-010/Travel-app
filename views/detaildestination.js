@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, Text, StyleSheet, ScrollView } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useRoute } from "@react-navigation/native";
-import SearchBar from "../components/SearchBar";
 import Cards from "../components/Cards";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import CardDesiredDestination from "../components/DesiredDestination";
 
 const colors = {
   bgMain: "#F5F6F7",
@@ -14,9 +15,30 @@ const colors = {
 
 export default function Destination() {
   const route = useRoute();
-  const { imageSource, destination } = route.params;
+  const { id, name, imgURL, info } = route.params;
+  const [cardData, setCardData] = useState(null);
   const [visited, setVisited] = useState(false);
   const [visitado, setVisitado] = useState("No lo he visitado");
+
+  useEffect(() => {
+    fetchCardsData();
+  }, []);
+
+  const fetchCardsData = async () => {
+    try {
+      if (name) {
+        setCardData({ name: name, imgURL: imgURL, info: info });
+      } else {
+        const response = await fetch(
+          `https://intensive-morgana-otherclasseducation.koyeb.app/api/v1/departaments/${id}`
+        );
+        const data = await response.json();
+        setCardData(data);
+      }
+    } catch (error) {
+      console.error("Error fetching cards data:", error);
+    }
+  };
 
   const handleVisitedChange = () => {
     setVisited(!visited);
@@ -27,41 +49,46 @@ export default function Destination() {
     }
   };
 
-  const handleSearch = (term) => {
-    console.log("Realizando búsqueda:", term);
-  };
-
   return (
     <View style={styles.AllContainer}>
       <ScrollView style={styles.Container}>
-        <Image source={imageSource} style={styles.image} />
+        {cardData && (
+          <>
+            <Image source={{ uri: cardData.imgURL }} style={styles.image} />
 
-        <View style={styles.destinationcontainer}>
-          <Text style={styles.destinationName}>{destination}</Text>
+            <View style={styles.destinationcontainer}>
+              <Text style={styles.destinationName}>{cardData.name}</Text>
 
-          <View style={styles.checkBoxContainer}>
-            <BouncyCheckbox isChecked={visited} onPress={handleVisitedChange} />
-            <Text style={styles.checkBoxLabel}>{visitado}</Text>
-          </View>
+              <View style={styles.checkBoxContainer}>
+                <BouncyCheckbox
+                  isChecked={visited}
+                  onPress={handleVisitedChange}
+                />
+                <Text style={styles.checkBoxLabel}>{visitado}</Text>
+              </View>
 
-          <Text style={styles.destiantiondescription}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </Text>
-        </View>
+              <Text style={styles.destiantiondescription}>{cardData.info}</Text>
+            </View>
 
-        <View style={styles.BoxGreenHeader}>
-          <Text style={styles.HeaderSection}>Recomendados</Text>
-        </View>
-
-        <Cards></Cards>
+            {!name && (
+              <View>
+                <View style={styles.BoxGreenHeader}>
+                  <Text style={styles.HeaderSection}>Ciudades</Text>
+                </View>
+                {cardData.city &&
+                  cardData.city.map((item) => (
+                    <CardDesiredDestination
+                      key={item.id}
+                      id={item.id}
+                      name={item.name}
+                      info={item.description}
+                      imgURL={item.imgURL}
+                    />
+                  ))}
+              </View>
+            )}
+          </>
+        )}
       </ScrollView>
     </View>
   );
