@@ -5,10 +5,10 @@ import { useRoute } from "@react-navigation/native";
 import CardDesiredDestination from "../components/DesiredDestination";
 
 const colors = {
-  bgMain: "#F5F6F7",
-  primaryColor: "#35A401",
-  errorColor: "#A62424",
-  inputColor: "#D4D4D4",
+	bgMain: "#F5F6F7",
+	primaryColor: "#35A401",
+	errorColor: "#A62424",
+	inputColor: "#D4D4D4",
 };
 
 export default function Destination() {
@@ -95,35 +95,39 @@ export default function Destination() {
 }
 
 const styles = StyleSheet.create({
-  AllContainer: {
-    backgroundColor: colors.bgMain,
-  },
+	AllContainer: {
+		backgroundColor: colors.bgMain,
+	},
 
-  ContainerSearchBar: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  },
-  image: { height: 360, width: 420 },
-  destinationcontainer: { marginVertical: 30, marginHorizontal: 30, gap: 20 },
-  destinationName: { fontSize: 20, fontWeight: "700" },
+	ContainerSearchBar: {
+		paddingHorizontal: 20,
+		paddingVertical: 20,
+	},
+	image: { height: 360, width: 420 },
+	destinationcontainer: {
+		marginVertical: 30,
+		marginHorizontal: 30,
+		gap: 20,
+	},
+	destinationName: { fontSize: 20, fontWeight: "700" },
 
-  BoxGreenHeader: {
-    width: 220,
-    backgroundColor: colors.primaryColor,
-    padding: 15,
-    marginVertical: 20,
-    borderTopRightRadius: 30,
-    borderBottomRightRadius: 30,
-  },
-  HeaderSection: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "600",
-    paddingHorizontal: 30,
-  },
-  checkBoxContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
+	BoxGreenHeader: {
+		width: 220,
+		backgroundColor: colors.primaryColor,
+		padding: 15,
+		marginVertical: 20,
+		borderTopRightRadius: 30,
+		borderBottomRightRadius: 30,
+	},
+	HeaderSection: {
+		color: "white",
+		fontSize: 18,
+		fontWeight: "600",
+		paddingHorizontal: 30,
+	},
+	checkBoxContainer: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+	},
 });

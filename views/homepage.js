@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import SearchBar from "../components/SearchBar";
 import Icon from "react-native-vector-icons/Ionicons";
 import Cards from "../components/Cards";
@@ -175,3 +176,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
 });
+
+export default HomePage;
