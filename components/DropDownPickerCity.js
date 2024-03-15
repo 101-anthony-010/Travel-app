@@ -5,20 +5,19 @@ import DropDownPicker from "react-native-dropdown-picker";
 export default function DropDownPickerCity() {
 	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState([
-		"italy",
-		"spain",
-		"barcelona",
-		"finland",
-		"madrid",
-		"rome",
+		"Lima",
+		"Ica",
+		"Arequipa",
+		"Iquitos",
+		"Cuzco",
+		"Tacna",
 	]);
 	const [items, setItems] = useState([
-		{ label: "Spain", value: "spain" },
-		{ label: "Madrid", value: "madrid" },
-		{ label: "Barcelona", value: "barcelona" },
-		{ label: "Italy", value: "italy" },
-		{ label: "Rome", value: "rome" },
-		{ label: "Finland", value: "finland" },
+		{ label: "Lima", value: "lima" },
+		{ label: "Ica", value: "ica" },
+		{ label: "Iquitos", value: "iquitos" },
+		{ label: "Piura", value: "piura" },
+		{ label: "Anchash", value: "anchash" },
 	]);
 
 	return (

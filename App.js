@@ -19,12 +19,16 @@ export default function App() {
 		const routeName = route.state
 			? route.state.routes[route.state.index].name
 			: route.params?.screen || "Home";
-		return routeName !== "Login" && routeName !== "Register";
+		return (
+			routeName !== "Login" &&
+			routeName !== "Register" &&
+			routeName !== "Initial"
+		);
 	};
 
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Home">
+			<Stack.Navigator initialRouteName="Initial">
 				<Stack.Screen
 					name="Initial"
 					component={InitialPage}
@@ -75,7 +79,7 @@ export default function App() {
 					})}
 				/>
 			</Stack.Navigator>
-			{!showBottomBar ? null : <BottomNavigationBar />}
+			<BottomNavigationBar />
 		</NavigationContainer>
 	);
 }

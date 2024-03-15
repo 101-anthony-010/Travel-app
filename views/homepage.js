@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
 	View,
 	StyleSheet,
@@ -6,7 +7,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import SearchBar from "../components/SearchBar";
 import Icon from "react-native-vector-icons/Ionicons";
 import Cards from "../components/Cards";
@@ -18,9 +19,20 @@ const colors = {
 	inputColor: "#D4D4D4",
 };
 
-export default function HomePage() {
+const HomePage = () => {
+	const navigation = useNavigation();
+	const [searchTerm, setSearchTerm] = useState("");
+
 	const handleSearch = (term) => {
-		console.log("Realizando búsqueda:", term);
+		const data = ["canta", "puno", "máncora", "huacachina", "lima"];
+
+		const contentExists = data.includes(term.toLowerCase());
+		if (contentExists) {
+			setSearchTerm(""); // Limpiar el término de búsqueda
+			navigation.navigate("Destination", { searchTerm: term });
+		} else {
+			console.log("Contenido no encontrado:", term);
+		}
 	};
 
 	return (
@@ -30,7 +42,7 @@ export default function HomePage() {
 					<Image
 						source={require("../images/paracas.png")}
 						style={styles.ImageContainer}
-					></Image>
+					/>
 					<View style={styles.ContainerSearchBar}>
 						<SearchBar
 							placeholder="Buscar destino..."
@@ -42,14 +54,17 @@ export default function HomePage() {
 				<View style={styles.ContainerDescription}>
 					<Text style={styles.HeaderH1}>Paracas</Text>
 					<Text style={styles.TextDescription}>
-						A cuatro horas de Lima, la capital del Perú, el sol se
+						A cuatro horas de Lima, la capital del Perú, el sol se
 						posa sobre lo más alto del cielo iqueño para recibir a
 						los visitantes.
 					</Text>
 				</View>
 
 				<View style={styles.ContainerButton}>
-					<TouchableOpacity style={styles.Button}>
+					<TouchableOpacity
+						style={styles.Button}
+						onPress={() => navigation.navigate("Destination")}
+					>
 						<Text style={styles.ButtonText}>Ver más</Text>
 						<Icon
 							name="chevron-forward-outline"
@@ -63,42 +78,28 @@ export default function HomePage() {
 					<Text style={styles.HeaderSection}>Recomendados</Text>
 				</View>
 
-				<Cards></Cards>
+				<Cards />
 			</ScrollView>
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	AllContainer: {
-		backgroundColor: colors.bgMain, //"#F5F6F7",
+		backgroundColor: colors.bgMain,
 		height: "100%",
 	},
-
-	ContainerBottomBar: {
-		position: "absolute",
-		bottom: 0,
-		left: 0,
-		right: 0,
-	},
-
+	Container: {},
 	ImageContainer: {
 		height: 360,
 	},
-
-	Image: {
-		flex: 1,
-		resizeMode: "repeat",
-		justifyContent: "center",
-	},
-
 	ContainerSearchBar: {
 		position: "absolute",
 		top: 0,
 		right: 0,
 		left: 0,
 		paddingHorizontal: 30,
-		paddingVertical: 30,
+		paddingTop: 30,
 	},
 	HeaderH1: {
 		color: "white",
@@ -124,7 +125,6 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		flexDirection: "row",
 	},
-
 	ButtonText: {
 		color: "white",
 		fontSize: 16,
@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
 		right: 0,
 		left: 0,
 	},
-
 	BoxGreenHeader: {
 		width: 220,
 		backgroundColor: colors.primaryColor,
@@ -146,7 +145,6 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 30,
 		borderBottomRightRadius: 30,
 	},
-
 	HeaderSection: {
 		color: "white",
 		fontSize: 18,
@@ -154,3 +152,5 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 30,
 	},
 });
+
+export default HomePage;
