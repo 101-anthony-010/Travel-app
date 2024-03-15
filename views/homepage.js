@@ -85,7 +85,8 @@ export default function HomePage() {
 
 const styles = StyleSheet.create({
   AllContainer: {
-    backgroundColor: colors.bgMain, //"#F5F6F7",
+    backgroundColor: colors.bgMain,
+
     height: "100%",
   },
 
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
   },
 
   ImageContainer: {
-    height: 360,
+    height: 390,
   },
 
   Image: {
@@ -113,21 +114,26 @@ const styles = StyleSheet.create({
     left: 0,
     paddingHorizontal: 30,
     paddingVertical: 30,
+    paddingTop: 60,
   },
+
   HeaderH1: {
     color: "white",
     fontSize: 30,
     fontWeight: "700",
   },
+
   TextDescription: {
     color: "white",
   },
+
   ContainerDescription: {
     position: "absolute",
-    top: 120,
+    top: 160,
     paddingLeft: 32,
     paddingRight: 130,
   },
+
   Button: {
     width: 120,
     height: 40,
@@ -144,10 +150,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
+
   ContainerButton: {
     paddingHorizontal: 30,
     position: "absolute",
-    top: 270,
+    top: 300,
     right: 0,
     left: 0,
   },

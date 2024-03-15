@@ -10,72 +10,105 @@ import BottomNavigationBar from "./components/BottomNavigationBar";
 import MemoriesPage from "./views/memoriespage";
 import SeacrhPage from "./views/searchpage";
 import UserView from "./views/userviewpage";
-import DropdownPickerCity from "./components/DropDownPickerCity";
+import City from "./views/detailcity";
+import { useState } from "react";
 
 const Stack = createStackNavigator();
 
 export default function App() {
-	const showBottomBar = (route) => {
-		const routeName = route.state
-			? route.state.routes[route.state.index].name
-			: route.params?.screen || "Home";
-		return routeName !== "Login" && routeName !== "Register";
-	};
+  const [show, setShown] = useState(true);
 
-	return (
-		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Home">
-				<Stack.Screen
-					name="Initial"
-					component={InitialPage}
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen name="Login" component={LoginPage} />
-				<Stack.Screen name="Register" component={RegisterPage} />
-				<Stack.Screen
-					name="Home"
-					component={HomePage}
-					options={({ route }) => ({
-						headerShown: showBottomBar(route),
-					})}
-				/>
-				<Stack.Screen
-					name="Destination"
-					component={Destination}
-					options={({ route }) => ({
-						headerShown: showBottomBar(route),
-					})}
-				/>
-				<Stack.Screen
-					name="Travels"
-					component={Travels}
-					options={({ route }) => ({
-						headerShown: showBottomBar(route),
-					})}
-				/>
-				<Stack.Screen
-					name="MemoriesPage"
-					component={MemoriesPage}
-					options={({ route }) => ({
-						headerShown: showBottomBar(route),
-					})}
-				/>
-				<Stack.Screen
-					name="Search"
-					component={SeacrhPage}
-					options={({ route }) => ({
-						headerShown: showBottomBar(route),
-					})}
-				/>
-				<Stack.Screen
-					name="Profile"
-					component={UserView}
-					options={({ route }) => ({
-						headerShown: showBottomBar(route),
-					})}
-				/>
-			</Stack.Navigator>
-			{!showBottomBar ? null : <BottomNavigationBar />}
-		</NavigationContainer>
-	);
+  const isBottomBarVisible = (routeName) => {
+    if (
+      routeName === "Initial" ||
+      routeName === "Ingreso" ||
+      routeName === "Registro"
+    ) {
+      setShown(false);
+    } else {
+      setShown(true);
+    }
+    if (routeName === "Initial" || routeName === "Inicio") {
+      return false;
+    }
+  };
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Initial">
+        <Stack.Screen
+          name="Initial"
+          component={InitialPage}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+        <Stack.Screen
+          name="Ingreso"
+          component={LoginPage}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+        <Stack.Screen
+          name="Registro"
+          component={RegisterPage}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+        <Stack.Screen
+          name="Inicio"
+          component={HomePage}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+        <Stack.Screen
+          name="Departamento"
+          component={Destination}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+        <Stack.Screen
+          name="Ciudad"
+          component={City}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+        <Stack.Screen
+          name="Viajes"
+          component={Travels}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+        <Stack.Screen
+          name="Recuerdos"
+          component={MemoriesPage}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+        <Stack.Screen
+          name="Buscar"
+          component={SeacrhPage}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+        <Stack.Screen
+          name="Perfil"
+          component={UserView}
+          options={({ route }) => ({
+            headerShown: isBottomBarVisible(route.name),
+          })}
+        />
+      </Stack.Navigator>
+
+      {show ? <BottomNavigationBar /> : null}
+    </NavigationContainer>
+  );
 }

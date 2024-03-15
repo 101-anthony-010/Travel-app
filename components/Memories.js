@@ -29,7 +29,7 @@ const Memories = () => {
   const navigation = useNavigation();
 
   const handleCardPress = (destination) => {
-    navigation.navigate("MemoriesPage", { destination });
+    navigation.navigate("Recuerdos", { destination });
   };
 
   return (

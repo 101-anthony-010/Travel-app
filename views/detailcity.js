@@ -11,7 +11,7 @@ const colors = {
   inputColor: "#D4D4D4",
 };
 
-export default function Destination() {
+export default function City() {
   const route = useRoute();
   const { id, name, imgURL, info } = route.params;
   const [cardData, setCardData] = useState(null);

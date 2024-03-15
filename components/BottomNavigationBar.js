@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 const BottomNavigationBar = () => {
 	const navigation = useNavigation();
 
-	const [currentScreen, setCurrentScreen] = useState("Home"); // Estado para rastrear la pantalla actual
+	const [currentScreen, setCurrentScreen] = useState("Inicio"); // Estado para rastrear la pantalla actual
 	// Escuchar los cambios de pantalla y actualizar el estado
 	useEffect(() => {
 		const unsubscribe = navigation.addListener("state", () => {
@@ -21,19 +21,19 @@ const BottomNavigationBar = () => {
 	}, [navigation]);
 
 	const navigateToHome = () => {
-		navigation.navigate("Home");
+		navigation.navigate("Inicio");
 	};
 
 	const navigateToSearch = () => {
-		navigation.navigate("Search");
+		navigation.navigate("Buscar");
 	};
 
 	const navigateToHistory = () => {
-		navigation.navigate("Travels");
+		navigation.navigate("Viajes");
 	};
 
 	const navigateToProfile = () => {
-		navigation.navigate("Profile");
+		navigation.navigate("Perfil");
 	};
 
 	return (
@@ -46,7 +46,7 @@ const BottomNavigationBar = () => {
 					<Icon
 						name="home-outline"
 						size={30}
-						color={currentScreen === "Home" ? "green" : "#000"}
+						color={currentScreen === "Inicio" ? "green" : "#000"}
 					/>
 				</TouchableOpacity>
 				<TouchableOpacity
@@ -56,7 +56,7 @@ const BottomNavigationBar = () => {
 					<Icon
 						name="search-outline"
 						size={30}
-						color={currentScreen === "Search" ? "green" : "#000"}
+						color={currentScreen === "Buscar" ? "green" : "#000"}
 					/>
 				</TouchableOpacity>
 				<TouchableOpacity
@@ -66,7 +66,7 @@ const BottomNavigationBar = () => {
 					<Icon
 						name="time-outline"
 						size={30}
-						color={currentScreen === "Travels" ? "green" : "#000"}
+						color={currentScreen === "Viajes" ? "green" : "#000"}
 					/>
 				</TouchableOpacity>
 				<TouchableOpacity
@@ -76,7 +76,7 @@ const BottomNavigationBar = () => {
 					<Icon
 						name="person-outline"
 						size={30}
-						color={currentScreen === "Profile" ? "green" : "#000"}
+						color={currentScreen === "Perfil" ? "green" : "#000"}
 					/>
 				</TouchableOpacity>
 			</View>

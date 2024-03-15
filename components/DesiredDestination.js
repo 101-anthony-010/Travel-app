@@ -11,7 +11,7 @@ const CardDesiredDestination = ({ id, name, imgURL, info }) => {
   const navigation = useNavigation();
 
   const handleCardPress = () => {
-    navigation.navigate("Destination", { id, name, imgURL, info });
+    navigation.navigate("Ciudad", { id, name, imgURL, info });
   };
 
   return (

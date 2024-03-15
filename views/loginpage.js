@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
   StyleSheet,
@@ -30,7 +31,6 @@ export default function LoginPage({ navigation }) {
   };
 
   const validateEmail = () => {
-    // Expresión regular para validar el formato del correo electrónico
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
     if (!emailRegex.test(email)) {
@@ -39,7 +39,6 @@ export default function LoginPage({ navigation }) {
   };
 
   const handleLogin = async () => {
-    // Validar que ningún campo esté vacío
     if (!email || !password) {
       console.error("Por favor, completa todos los campos");
       return;
@@ -65,7 +64,13 @@ export default function LoginPage({ navigation }) {
       const responseData = await response.json();
       if (response.ok) {
         console.log("Inicio de sesión exitoso", responseData);
-        navigation.navigate("Home");
+
+        await AsyncStorage.setItem(
+          "userData",
+          JSON.stringify(responseData.user)
+        );
+
+        navigation.navigate("Inicio");
         alert("Logueo Exitoso");
       } else {
         console.error("Error al iniciar sesión:", responseData);

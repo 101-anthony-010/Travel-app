@@ -1,61 +1,113 @@
-import React from "react";
-import { View, TextInput, StyleSheet, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Image, TextInput, StyleSheet, Text, Alert } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 const UserView = () => {
-	// Supongamos que tienes un array de datos del usuario
-	const userData = [
-		{ label: "Nombre completo", value: "John Doe" },
-		{ label: "Correo electrónico", value: "john@example.com" },
-		{ label: "Teléfono", value: "1234567890" },
-	];
+  const navigation = useNavigation();
+  const [userData, setUserData] = useState([]);
 
-	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Mi perfil </Text>
-			{userData.map((data, index) => (
-				<View key={index} style={styles.inputContainer}>
-					<Text style={styles.label}>{data.label}</Text>
-					<TextInput
-						style={styles.input}
-						value={data.value}
-						editable={false}
-						selectTextOnFocus={false}
-					/>
-				</View>
-			))}
-		</View>
-	);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const storedUserData = await AsyncStorage.getItem("userData");
+        if (storedUserData !== null) {
+          setUserData(JSON.parse(storedUserData));
+        }
+      } catch (error) {
+        console.error("Error al obtener los datos del usuario:", error);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem("userData");
+      navigation.navigate("Initial");
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
+  };
+
+  const confirmLogout = () => {
+    Alert.alert(
+      "Cerrar Sesión",
+      "¿Estás seguro de que deseas cerrar sesión?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        { text: "Cerrar Sesión", onPress: handleLogout },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Mi perfil </Text>
+
+      <View style={styles.cardContainer}>
+        <Image source={{ uri: userData.imgUrl }} style={styles.cardImage} />
+        <Text style={styles.label}>
+          Nombre Completo: {userData.name} {userData.firstLastName}{" "}
+          {userData.secondLastName}
+        </Text>
+
+        <Text style={styles.label}>Correo Electronico: {userData.email}</Text>
+
+        <Text style={styles.label}>ID Usuario: {userData.id}</Text>
+      </View>
+
+      <TouchableOpacity style={styles.logoutButton} onPress={confirmLogout}>
+        <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-	title: {
-		fontSize: 25,
-		fontWeight: "700",
-		marginVertical: 20,
-		textAlign: "center",
-	},
+  title: {
+    fontSize: 25,
+    fontWeight: "700",
+    marginVertical: 20,
+    textAlign: "center",
+  },
 
-	container: {
-		flex: 1,
-		//padding: 20,
-		backgroundColor: "#ffffff",
-		paddingHorizontal: 25,
-	},
-	inputContainer: {
-		marginBottom: 20,
-	},
-	label: {
-		fontSize: 16,
-		marginBottom: 5,
-		color: "#333333",
-	},
-	input: {
-		borderWidth: 1,
-		borderColor: "#CCCCCC",
-		borderRadius: 5,
-		padding: 10,
-		fontSize: 16,
-	},
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 25,
+  },
+
+  cardContainer: {
+    margin: 10,
+  },
+
+  cardImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 8,
+  },
+
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: "#333333",
+  },
+
+  logoutButton: {
+    backgroundColor: "#ff0000",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+
+  logoutButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 });
 
 export default UserView;
