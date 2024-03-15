@@ -12,6 +12,9 @@ import SeacrhPage from "./views/searchpage";
 import UserView from "./views/userviewpage";
 import City from "./views/detailcity";
 import { useState } from "react";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["Cannot update"]);
 
 const Stack = createStackNavigator();
 
@@ -35,7 +38,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Initial">
+      <Stack.Navigator initialRouteName="Inicio">
         <Stack.Screen
           name="Initial"
           component={InitialPage}

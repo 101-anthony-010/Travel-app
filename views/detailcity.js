@@ -23,7 +23,7 @@ export default function City() {
   }, []);
 
   const fetchCardsData = async () => {
-    console.log(id, name, info);
+    
     try {
       if (info !== undefined) {
         setCardData({ name: name, imgURL: imgURL, info: info });
@@ -37,7 +37,7 @@ export default function City() {
     } catch (error) {
       console.error("Error fetching cards data:", error);
     }
-    console.log(cardData);
+   
   };
 
   const handleVisitedChange = () => {

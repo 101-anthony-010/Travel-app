@@ -63,7 +63,7 @@ export default function LoginPage({ navigation }) {
 
       const responseData = await response.json();
       if (response.ok) {
-        console.log("Inicio de sesión exitoso", responseData);
+      
 
         await AsyncStorage.setItem(
           "userData",

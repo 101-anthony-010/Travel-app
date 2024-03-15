@@ -132,7 +132,7 @@ export default function RegisterPage({ navigation }) {
 
       const responseData = await response.json();
       if (response.ok) {
-        console.log("Usuario registrado exitosamente", responseData);
+      
         navigation.navigate("Registro");
         alert("Registro Exitoso");
       } else {

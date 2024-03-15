@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -25,11 +24,25 @@ export default function HomePage() {
     console.log("Realizando búsqueda:", term);
   };
 
+  const navigation = useNavigation();
   const [cardsData, setCardsData] = useState([]);
+  const [random, setRandom] = useState({
+    id: 2,
+    imgURL:
+      "https://firebasestorage.googleapis.com/v0/b/travel-app-cloud.appspot.com/o/departaments%2F1710498525697-ancash%20(1).jpg?alt=media&token=f15d8113-3953-434b-981e-8b52992f08a9",
+    info: "Apurímac, un departamento ubicado en el sur de Perú, te invita a descubrir un territorio lleno de historia, cultura y naturaleza.",
+    name: "Apurímac",
+  });
 
   useEffect(() => {
     fetchCardsData();
   }, []);
+
+  const handleCardPress = () => {
+    const id = random.id;
+    navigation.navigate("Departamento", { id });
+    console.log(random.id);
+  };
 
   const fetchCardsData = async () => {
     try {
@@ -38,6 +51,7 @@ export default function HomePage() {
       );
       const data = await response.json();
       setCardsData(data.data);
+      setRandom(data.data[Math.round(Math.random() * 10)]);
     } catch (error) {
       console.error("Error fetching cards data:", error);
     }
@@ -48,9 +62,10 @@ export default function HomePage() {
       <ScrollView style={styles.Container}>
         <View>
           <Image
-            source={require("../images/paracas.png")}
+            source={{ uri: random.imgURL }}
             style={styles.ImageContainer}
           ></Image>
+          <View style={styles.ImageOverlay} />
           <View style={styles.ContainerSearchBar}>
             <SearchBar
               placeholder="Buscar destino..."
@@ -60,15 +75,14 @@ export default function HomePage() {
         </View>
 
         <View style={styles.ContainerDescription}>
-          <Text style={styles.HeaderH1}>Paracas</Text>
+          <Text style={styles.HeaderH1}>{random.name}</Text>
           <Text style={styles.TextDescription}>
-            A cuatro horas de Lima, la capital del Perú, el sol se posa sobre lo
-            más alto del cielo iqueño para recibir a los visitantes.
+            {random.info.split(".")[0].trim()}
           </Text>
         </View>
 
         <View style={styles.ContainerButton}>
-          <TouchableOpacity style={styles.Button}>
+          <TouchableOpacity style={styles.Button} onPress={handleCardPress}>
             <Text style={styles.ButtonText}>Ver más</Text>
             <Icon name="chevron-forward-outline" size={20} color="#fff" />
           </TouchableOpacity>
@@ -118,6 +132,11 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
 
+  ImageOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+  },
+
   HeaderH1: {
     color: "white",
     fontSize: 30,
@@ -132,7 +151,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 160,
     paddingLeft: 32,
-    paddingRight: 130,
+    paddingRight: 50,
+    display: "flex",
+    gap: 10,
   },
 
   Button: {
@@ -155,7 +176,7 @@ const styles = StyleSheet.create({
   ContainerButton: {
     paddingHorizontal: 30,
     position: "absolute",
-    top: 300,
+    top: 310,
     right: 0,
     left: 0,
   },
@@ -176,5 +197,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
 });
-
-export default HomePage;

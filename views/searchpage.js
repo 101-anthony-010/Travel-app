@@ -10,7 +10,7 @@ export default function SearchPage() {
     const selectedCities = [];
     try {
       for (departmentId of selectedDepartments) {
-        console.log(departmentId);
+      
         const response = await fetch(
           `https://intensive-morgana-otherclasseducation.koyeb.app/api/v1/departaments/${departmentId}`
         );

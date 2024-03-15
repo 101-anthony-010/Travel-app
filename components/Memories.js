@@ -35,7 +35,10 @@ const Memories = () => {
   return (
     <View style={styles.ContainerCards}>
       {data.map((item) => (
-        <TouchableOpacity onPress={() => handleCardPress(item.destination)}>
+        <TouchableOpacity
+          onPress={() => handleCardPress(item.destination)}
+          key={item.id}
+        >
           <View style={styles.cardContainer}>
             <Image source={item.imageSource} style={styles.cardImage} />
             <View style={styles.labelContainer}>
