@@ -3,6 +3,7 @@ import { View, Image, Text, StyleSheet, ScrollView } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useRoute } from "@react-navigation/native";
 import CardDesiredDestination from "../components/DesiredDestination";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const colors = {
   bgMain: "#F5F6F7",
@@ -18,10 +19,12 @@ export default function Destination() {
   const [mealData, setMealData] = useState(null);
   const [visited, setVisited] = useState(false);
   const [visitado, setVisitado] = useState("No lo he visitado");
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     fetchCardsData();
     fetchFood();
+    getToken();
   }, []);
 
   const fetchCardsData = async () => {
@@ -52,6 +55,17 @@ export default function Destination() {
     }
   };
 
+  const getToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token"); // Suponiendo que el token está guardado con la clave 'token'
+      if (token !== null) {
+        setToken(token); // Almacena el token en el estado
+      }
+    } catch (error) {
+      console.error("Error al obtener el token:", error);
+    }
+  };
+
   const handleVisitedChange = async () => {
     setVisited(!visited);
 
@@ -62,28 +76,30 @@ export default function Destination() {
 
     try {
       if (visited) {
-        await fetch(
-          `https://intensive-morgana-otherclasseducation.koyeb.app/api/v1/userDepartament/${id}`,
+        const res = await fetch(
+          `https://intensive-morgana-otherclasseducation.koyeb.app/api/v1/post/`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(bodyData),
           }
         );
+        console.log(res.json());
         setVisitado("No lo he visitado");
       } else {
-        await fetch(
-          `https://intensive-morgana-otherclasseducation.koyeb.app/api/v1/userDepartament/${id}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}),
-          }
-        );
+        // await fetch(
+        //   `https://intensive-morgana-otherclasseducation.koyeb.app/api/v1/userDepartament/${id}`,
+        //   {
+        //     method: "DELETE",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({}),
+        //   }
+        // );
         setVisitado("Ya lo he visitado");
       }
     } catch (error) {
@@ -197,6 +213,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     margin: 10,
+    paddingRight: 20,
     display: "flex",
     flexDirection: "row",
   },
@@ -209,7 +226,8 @@ const styles = StyleSheet.create({
 
   labelContainer: {
     paddingVertical: 3,
-    paddingHorizontal: 10,
+    paddingRight: 40,
+    paddingLeft: 15,
     borderTopLeftRadius: 8,
   },
 

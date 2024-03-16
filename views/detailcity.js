@@ -23,7 +23,6 @@ export default function City() {
   }, []);
 
   const fetchCardsData = async () => {
-    
     try {
       if (info !== undefined) {
         setCardData({ name: name, imgURL: imgURL, info: info });
@@ -37,16 +36,6 @@ export default function City() {
     } catch (error) {
       console.error("Error fetching cards data:", error);
     }
-   
-  };
-
-  const handleVisitedChange = () => {
-    setVisited(!visited);
-    if (visited) {
-      setVisitado("No lo he visitado");
-    } else {
-      setVisitado("Ya lo he visitado");
-    }
   };
 
   return (
@@ -58,14 +47,6 @@ export default function City() {
 
             <View style={styles.destinationcontainer}>
               <Text style={styles.destinationName}>{cardData.name}</Text>
-
-              <View style={styles.checkBoxContainer}>
-                <BouncyCheckbox
-                  isChecked={visited}
-                  onPress={handleVisitedChange}
-                />
-                <Text style={styles.checkBoxLabel}>{visitado}</Text>
-              </View>
 
               <Text style={styles.destiantiondescription}>{cardData.info}</Text>
             </View>

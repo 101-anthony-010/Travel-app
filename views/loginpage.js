@@ -62,13 +62,13 @@ export default function LoginPage({ navigation }) {
       );
 
       const responseData = await response.json();
+      console.log(responseData);
       if (response.ok) {
-      
-
         await AsyncStorage.setItem(
           "userData",
           JSON.stringify(responseData.user)
         );
+        await AsyncStorage.setItem("token", JSON.stringify(responseData.token));
 
         navigation.navigate("Inicio");
         alert("Logueo Exitoso");
